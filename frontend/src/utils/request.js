@@ -39,6 +39,9 @@ api.interceptors.response.use(
     error => {
 
         if (error.response && error.response.status !== undefined) {
+
+            console.log(error.response)
+
             if (error.response.status === 401) {
                 alert.error(error);
                 if (router.history.current.path !== '/login') {

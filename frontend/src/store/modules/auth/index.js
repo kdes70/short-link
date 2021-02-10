@@ -31,6 +31,7 @@ export default {
                     return Promise.resolve(response)
                 }).catch(error => {
                     commit(SET_LOADING, false)
+                    alert.error(error)
                     return Promise.reject(error)
                 })
         },
