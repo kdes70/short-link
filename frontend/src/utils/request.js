@@ -4,6 +4,9 @@ import {getToken} from './token'
 import router from "@/router";
 import {SET_ERRORS} from "@/store/actions/other";
 import store from '../store'
+import {AUTH_LOGOUT} from "@/store/actions/auth";
+import alert from './alert'
+
 // create axios instance
 const api = axios.create({
     baseURL: process.env.VUE_APP_API_URL,
@@ -25,7 +28,7 @@ api.interceptors.request.use(
         return config
     },
     error => {
-        Promise.reject(error)
+        return Promise.reject(error)
     }
 )
 
@@ -37,9 +40,11 @@ api.interceptors.response.use(
 
         if (error.response && error.response.status !== undefined) {
             if (error.response.status === 401) {
-                // echo.error(error);
-                // store.dispatch("auth/logout");
-                return router.push("/");
+                alert.error(error);
+                if (router.history.current.path !== '/login') {
+                    store.dispatch(AUTH_LOGOUT)
+                    router.push({name: 'Login'});
+                }
             }
 
             if (error.response.status === 422) {
@@ -49,8 +54,7 @@ api.interceptors.response.use(
             }
         }
 
-
-        Promise.reject(error);
+        return Promise.reject(error);
     }
 );
 

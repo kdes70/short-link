@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\ShortLink\ShortLink;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -19,6 +20,7 @@ class CreateShortLinksTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('link');
             $table->string('code', 8)->unique();
+            $table->unsignedTinyInteger('state')->default(ShortLink::STATE_INACTIVE);
             $table->timestamps();
 
             $table->foreign('user_id')

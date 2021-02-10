@@ -22,12 +22,14 @@ class ShortLinkResource extends JsonResource
         }
 
         $data = [
-            'id'         => $model->id,
-            'user_id'    => $model->user_id,
-            'link'       => $model->link,
-            'code'       => $model->code,
-            'created_at' => $model->created_at,
-            'updated_at' => $model->updated_at,
+            'id'           => $model->id,
+            'user_id'      => $model->user_id,
+            'link'         => $model->link,
+            'code'         => $model->code,
+            'state'        => $model->state,
+            'visits_count' => (isset($model->visits_count)) ? $model->visits_count : 0,
+            'created_at'   => $model->created_at,
+            'updated_at'   => $model->updated_at,
         ];
 
         if ($model->relationLoaded('visits')) {

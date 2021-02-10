@@ -1,77 +1,114 @@
 <template>
-  <div class="auth_wrapper">
-    <!-- Login Form -->
-    <div class="container mx-auto p-8">
-      <div class="mx-auto max-w-sm">
-
-        <div class="auth_form_wrapper rounded shadow">
-          <div class="border-b py-8 font-bold text-black text-center text-xl tracking-widest uppercase">
-            Register
-          </div>
-
-          <div v-if="errors.length">
-            <b>Пожалуйста исправьте указанные ошибки:</b>
-            <ul>
-              <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
-            </ul>
-          </div>
-
-          <form class="bg-white px-10 py-10" @submit.prevent="submit">
-
-            <div class="mb-3">
-              <input
-                  class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                  name="name" type="text" v-model="form.name" placeholder="Name">
-              <small class="bg-red-100" v-if="getErrors.has('name')" v-text="getErrors.get('name')"></small>
-            </div>
-            <div class="mb-3">
-              <input
-                  class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                  name="email" type="email" v-model="form.email" placeholder="E-Mail">
-              <small class="bg-red-100" v-if="getErrors.has('email')" v-text="getErrors.get('email')"></small>
-            </div>
-            <div class="mb-3">
-              <input
-                  class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                  name="password" type="password" v-model="form.password" placeholder="Password">
-              <small class="bg-red-100" v-if="getErrors.has('password')" v-text="getErrors.get('password')"></small>
-            </div>
-            <div class="mb-6">
-              <input
-                  class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                  name="password_confirm" type="password" v-model="form.password_confirm"
-                  placeholder="Confirm Password">
-            </div>
-            <div class="flex">
-              <button
-                  class="bg-primary hover:bg-primary-dark w-full rounded-md p-4 text-sm text-white uppercase font-bold tracking-wider">
-                Create Account
-              </button>
-            </div>
-          </form>
-
-          <div class="border-t px-10 py-6">
-            <div class="flex justify-between">
-              <router-link class="font-bold text-primary hover:text-primary-dark no-underline" :to="{name: 'Login'}">You
-                already have an account?
-              </router-link>
-              <!--              <a href="#" class="text-grey-darkest hover:text-black no-underline">Forgot Password?</a>-->
-            </div>
-          </div>
-
-        </div>
+  <div class="flex justify-center items-center h-screen bg-gray-200 px-6">
+    <div class="p-6 max-w-sm w-full bg-white shadow-md rounded-md">
+      <div class="flex justify-center items-center">
+        <svg
+            class="h-10 w-10"
+            viewBox="0 0 512 512"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+              d="M364.61 390.213C304.625 450.196 207.37 450.196 147.386 390.213C117.394 360.22 102.398 320.911 102.398 281.6C102.398 242.291 117.394 202.981 147.386 172.989C147.386 230.4 153.6 281.6 230.4 307.2C230.4 256 256 102.4 294.4 76.7999C320 128 334.618 142.997 364.608 172.989C394.601 202.981 409.597 242.291 409.597 281.6C409.597 320.911 394.601 360.22 364.61 390.213Z"
+              fill="#4C51BF"
+              stroke="#4C51BF"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+          />
+          <path
+              d="M201.694 387.105C231.686 417.098 280.312 417.098 310.305 387.105C325.301 372.109 332.8 352.456 332.8 332.8C332.8 313.144 325.301 293.491 310.305 278.495C295.309 263.498 288 256 275.2 230.4C256 243.2 243.201 320 243.201 345.6C201.694 345.6 179.2 332.8 179.2 332.8C179.2 352.456 186.698 372.109 201.694 387.105Z"
+              fill="white"
+          />
+        </svg>
+        <span class="text-gray-700 font-semibold text-2xl">Short Link</span>
       </div>
+
+      <form class="mt-4" @submit.prevent="handleRegister">
+        <label class="block">
+          <span class="text-gray-700 text-sm">Name</span>
+          <input
+              type="text"
+              class="form-input mt-1 block w-full rounded-md focus:border-indigo-600"
+              v-model="form.name"
+              required
+          />
+          <small class="bg-red-100" v-if="getErrors.has('name')" v-text="getErrors.get('name')"></small>
+        </label>
+
+        <label class="block">
+          <span class="text-gray-700 text-sm">Email</span>
+          <input
+              type="email"
+              class="form-input mt-1 block w-full rounded-md focus:border-indigo-600"
+              v-model="form.email"
+              required
+          />
+          <small class="bg-red-100" v-if="getErrors.has('email')" v-text="getErrors.get('email')"></small>
+        </label>
+
+        <label class="block mt-3">
+          <span class="text-gray-700 text-sm">Password</span>
+          <input
+              type="password"
+              class="form-input mt-1 block w-full rounded-md focus:border-indigo-600"
+              v-model="form.password"
+              required
+          />
+          <small class="bg-red-100" v-if="getErrors.has('password')" v-text="getErrors.get('password')"></small>
+        </label>
+
+        <label class="block mt-3">
+          <span class="text-gray-700 text-sm">Confirm Password</span>
+          <input
+              type="password"
+              class="form-input mt-1 block w-full rounded-md focus:border-indigo-600"
+              v-model="form.password_confirm"
+              required
+          />
+        </label>
+
+        <!--        <div class="flex justify-between items-center mt-4">-->
+        <!--          <div>-->
+        <!--            <label class="inline-flex items-center">-->
+        <!--              <input type="checkbox" class="form-checkbox text-indigo-600"/>-->
+        <!--              <span class="mx-2 text-gray-600 text-sm">Remember me</span>-->
+        <!--            </label>-->
+        <!--          </div>-->
+
+        <!--          <div>-->
+        <!--            <a-->
+        <!--                class="block text-sm fontme text-indigo-700 hover:underline"-->
+        <!--                href="#"-->
+        <!--            >Forgot your password?</a-->
+        <!--            >-->
+        <!--          </div>-->
+        <!--        </div>-->
+
+        <div class="mt-6">
+          <button
+              type="submit"
+              class="py-2 px-4 text-center bg-indigo-600 rounded-md w-full text-white text-sm hover:bg-indigo-500"
+          >
+            Create Account
+          </button>
+          <div class="mt-6">
+            <router-link class="block text-sm fontme text-indigo-700 hover:underline" :to="{name: 'Login'}">You
+              already have an account?
+            </router-link>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </template>
 
 <script>
-
-import {AUTH_REGISTER} from "@/store/actions/auth";
 import {mapGetters} from "vuex";
+import {AUTH_REGISTER} from "@/store/actions/auth";
 
 export default {
-  name: 'RegisterForm',
+  name: "Register",
   data() {
     return {
       form: {
@@ -87,20 +124,19 @@ export default {
     ...mapGetters(['getErrors', 'isAuth'])
   },
   methods: {
-    submit(e) {
+    handleRegister(e) {
       e.preventDefault();
 
       this.validate()
 
       if (!this.errors.length) {
+
         this.$store.dispatch(AUTH_REGISTER, this.form)
             .then(response => {
-              if (response.data.status === "success") {
-                if (this.isAuth) {
-                  this.$router.push({name: 'Home'})
-                } else {
-                  this.$router.push({name: 'Login'})
-                }
+              if (response.data.status === "success" && this.isAuth) {
+                this.$router.push({name: 'Home'})
+              } else {
+                this.$router.push({name: 'Login'})
               }
             })
             .catch(error => {
@@ -121,14 +157,6 @@ export default {
 }
 </script>
 
-<style>
-.auth_wrapper {
-  width: 100%;
-  height: 100vh;
-  @apply bg-gray-100;
-}
+<style scoped>
 
-.auth_form_wrapper {
-  @apply bg-white;
-}
 </style>

@@ -15,3 +15,11 @@ export function ApiRegister(name, email, password, confirm) {
         password_confirmation: confirm
     })
 }
+
+export function ApiLogout() {
+    return request.post('api/auth/logout')
+}
+
+export function ApiGetUser() {
+    return request.get('api/auth/user');
+}

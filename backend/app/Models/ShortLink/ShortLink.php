@@ -18,6 +18,7 @@ use Illuminate\Support\Collection;
  * @property int $user_id
  * @property string $link
  * @property string $code
+ * @property int $state
  * @property Carbon $created_at
  * @property Carbon $updated_at
  *
@@ -28,10 +29,14 @@ class ShortLink extends Model
 {
     use HasFactory, HasCode;
 
+    const STATE_INACTIVE = 0;
+    const STATE_ACTIVE = 1;
+
     protected $fillable = [
         'user_id',
         'link',
         'code',
+        'state',
     ];
 
     /**

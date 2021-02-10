@@ -6,8 +6,8 @@ use App\Http\Requests\ShortLinkRequest;
 use App\Http\Resources\ShortLinkResource;
 use App\Models\ShortLink\ShortLink;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Http\Response;
 
 class ShortLinkController extends Controller
 {
@@ -32,7 +32,7 @@ class ShortLinkController extends Controller
         /** @var User $user */
         $user = auth()->user();
 
-        $links = $user->links()->get();
+        $links = $user->links()->withCount('visits')->paginate(5);
 
         return ShortLinkResource::collection($links);
     }
@@ -50,6 +50,7 @@ class ShortLinkController extends Controller
         $link = ShortLink::create([
             'user_id' => $user->id,
             'link'    => $request->link,
+            'state'   => $request->state,
         ]);
 
         return new ShortLinkResource($link);
@@ -78,9 +79,31 @@ class ShortLinkController extends Controller
     public function update(ShortLinkRequest $request, ShortLink $shortLink)
     {
         $shortLink->link = $request->link;
+        $shortLink->state = $request->state;
         $shortLink->save();
 
         return new ShortLinkResource($shortLink);
+    }
+
+    /**
+     * @param Request $request
+     * @param string $code
+     * @return ?string
+     */
+    public function visit(Request $request, string $code): ?string
+    {
+        $shortLink = ShortLink::whereCode($code)->whereState(ShortLink::STATE_ACTIVE)->first();
+
+        if ($shortLink) {
+            $shortLink->visits()->create([
+                'referer' => $request->referrer,
+                'ip'      => $request->ip,
+            ]);
+
+            return $shortLink->link;
+        }
+
+        return null;
     }
 
     /**

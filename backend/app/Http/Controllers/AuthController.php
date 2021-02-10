@@ -43,7 +43,6 @@ class AuthController extends Controller
      */
     public function register(RegisterRequest $request)
     {
-
         $user = User::create(array_merge(
             $request->validated(),
             ['password' => bcrypt($request->password)]
@@ -67,7 +66,7 @@ class AuthController extends Controller
      */
     public function logout()
     {
-        auth()->logout();
+        auth('api')->logout();
 
         return response()->json([
             'status'  => 'success',
@@ -90,7 +89,7 @@ class AuthController extends Controller
      *
      * @return JsonResponse
      */
-    public function userProfile()
+    public function user()
     {
         return response()->json(auth()->user());
     }

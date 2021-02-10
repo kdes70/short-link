@@ -23,10 +23,11 @@ Route::group([
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
-    Route::get('/user-profile', [AuthController::class, 'userProfile']);
+    Route::get('/user', [AuthController::class, 'user']);
 });
 
 # Go
 Route::group(['middleware' => 'auth:api'], function () {
     Route::resource('short-link', ShortLinkController::class)->except(['create', 'edit']);
+    Route::post('short-link/visit/{code}', [ShortLinkController::class, 'visit']);
 });

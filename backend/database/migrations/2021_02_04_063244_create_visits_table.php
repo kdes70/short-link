@@ -17,8 +17,8 @@ class CreateVisitsTable extends Migration
         Schema::create('visits', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('short_link_id');
-            $table->string('referer');
-            $table->ipAddress('ip');
+            $table->string('referer')->nullable();
+            $table->ipAddress('ip')->nullable();
             $table->timestamps();
 
             $table->foreign('short_link_id')

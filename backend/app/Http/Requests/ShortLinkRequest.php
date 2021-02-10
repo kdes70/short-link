@@ -8,6 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * Class ShortLinkRequest
  *
  * @property string $link
+ * @property boolean $state
  */
 class ShortLinkRequest extends FormRequest
 {
@@ -29,7 +30,8 @@ class ShortLinkRequest extends FormRequest
     public function rules()
     {
         return [
-            'link' => 'required|url',
+            'link'  => 'required|url',
+            'state' => 'required|boolean',
         ];
     }
 }
