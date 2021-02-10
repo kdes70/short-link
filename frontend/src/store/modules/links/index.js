@@ -30,7 +30,6 @@ export default {
                 }).catch(error => {
                     console.log('ADD_LINK error', error)
                     commit(SET_LOADING, false)
-                    alert.error(error)
                 })
         },
         [EDIT_LINK]: ({commit}, [link, data]) => {
@@ -44,7 +43,6 @@ export default {
                 }).catch(error => {
                     console.log('EDIT_LINK error', error)
                     commit(SET_LOADING, false)
-                    alert.error(error)
                 })
         },
         [DELETE_LINK]: ({commit}, linkId) => {
@@ -58,7 +56,6 @@ export default {
                 }).catch(error => {
                     console.log('DELETE_LINK error', error)
                     commit(SET_LOADING, false)
-                    alert.error(error)
                 })
         },
         [VISIT_LINK]: ({commit}, [code, referrer, ip]) => {

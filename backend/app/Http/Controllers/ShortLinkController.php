@@ -6,6 +6,7 @@ use App\Http\Requests\ShortLinkRequest;
 use App\Http\Resources\ShortLinkResource;
 use App\Models\ShortLink\ShortLink;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -41,7 +42,7 @@ class ShortLinkController extends Controller
      * Store a newly created resource in storage.
      *
      * @param ShortLinkRequest $request
-     * @return ShortLinkResource
+     * @return ShortLinkResource|JsonResponse
      */
     public function store(ShortLinkRequest $request)
     {

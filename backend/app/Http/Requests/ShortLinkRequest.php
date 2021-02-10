@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\Virus;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
@@ -30,7 +31,7 @@ class ShortLinkRequest extends FormRequest
     public function rules()
     {
         return [
-            'link'  => 'required|url',
+            'link'  => ['required', 'url', new Virus],
             'state' => 'required|boolean',
         ];
     }

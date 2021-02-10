@@ -39,9 +39,6 @@ api.interceptors.response.use(
     error => {
 
         if (error.response && error.response.status !== undefined) {
-
-            console.log(error.response)
-
             if (error.response.status === 401) {
                 alert.error(error);
                 if (router.history.current.path !== '/login') {
@@ -51,8 +48,6 @@ api.interceptors.response.use(
             }
 
             if (error.response.status === 422) {
-                console.log('api interceptors error', error.response.data)
-                console.log('api interceptors error', error.response.data.errors)
                 store.dispatch(SET_ERRORS, error.response.data.errors)
             }
         }
