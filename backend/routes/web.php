@@ -1,6 +1,5 @@
 <?php
 
-use App\Services\VirusTotal\VirusTotalUrl;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,13 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-
-    $url = 'https://themeforest.net/';
-
-    $virus = new VirusTotalUrl('d764e2e1c6d5055319f98cb6e38e6acd098bd3d4a0bb74bb82a69685d4b7f621');
-
-    $res = $virus->analysis($url);
-
-    dd($res);
-
+    return view('welcome');
 });
